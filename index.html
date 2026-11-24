@@ -4,22 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Thornapple Inc.</title>
-<meta name="description" content="Thornapple Inc. of Lowell, Michigan: commercial and residential snow plowing, lawn mowing, irrigation, clean ups, and more. Free estimates.">
-<meta name="theme-color" content="#12080a">
+<meta name="description" content="Thornapple Inc. of Lowell, Michigan: lawn care and commercial and residential snow plowing. Work with the owners. No salesmen, no upcharges. Free estimates.">
+<meta name="theme-color" content="#0b140d">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <style>
-/* Layout idea: dark editorial single page in the red of the Thornapple trucks. Photo-led hero, scrolling service band, numbered steps, testimonials, careers, contact. */
+/* Layout idea: one long scroll. A fixed grass backdrop (lawn first) crossfades into a fixed blizzard backdrop when winter begins. Content sits in dark translucent panels so it reads on both. */
 :root {
-  --bg: #12080a;
-  --surface: #1e0d11;
-  --line: #3a1a21;
-  --text: #f4ecea;
-  --muted: #bfa9ab;
-  --accent: #ff5a5f;
+  --bg: #0b140d;
+  --panel: rgba(9, 14, 11, 0.72);
+  --line: rgba(255, 255, 255, 0.16);
+  --text: #f5f2ec;
+  --muted: #c9d1ca;
+  --accent: #ff6a6e;
   --red: #c4202c;
-  --ember: #ff8a5c;
+  --ember: #ff9466;
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
   --font-body: "Source Sans 3", "Segoe UI", Arial, sans-serif;
   color-scheme: dark;
@@ -27,23 +27,31 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 18px; line-height: 1.65; }
-h1, h2, h3 { font-family: var(--font-display); font-weight: 500; line-height: 1.08; margin: 0; text-wrap: balance; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 500; line-height: 1.08; margin: 0; text-wrap: balance; text-shadow: 0 2px 18px rgba(0,0,0,0.45); }
 h1 { font-size: clamp(2.6rem, 7.5vw, 4.8rem); letter-spacing: -0.02em; }
 h2 { font-size: clamp(2rem, 5vw, 3.1rem); letter-spacing: -0.015em; }
 h3 { font-size: 1.45rem; }
-h1 em, h2 em { font-style: italic; font-weight: 400; color: var(--accent); background: linear-gradient(100deg, var(--ember), var(--accent) 55%, #e0183a); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+h1 em, h2 em { font-style: italic; font-weight: 400; color: var(--accent); background: linear-gradient(100deg, var(--ember), var(--accent) 55%, #ff4d5e); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; text-shadow: none; }
 p { margin: 0; max-width: 62ch; }
 a { color: var(--accent); }
 img { max-width: 100%; display: block; }
-.eyebrow { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; display: block; }
+.eyebrow { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; display: block; text-shadow: 0 1px 10px rgba(0,0,0,0.6); }
 .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
-section { padding: 96px 0; }
+section { padding: 96px 0; position: relative; }
 a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-.skip { position: absolute; left: -999px; top: 8px; background: var(--accent); color: #12080a; padding: 8px 14px; border-radius: 4px; z-index: 20; font-weight: 600; }
+.skip { position: absolute; left: -999px; top: 8px; background: var(--accent); color: #12080a; padding: 8px 14px; border-radius: 4px; z-index: 40; font-weight: 600; }
 .skip:focus { left: 8px; }
-.draft-bar { background: #fff3c4; color: #5a4300; text-align: center; font-size: 0.88rem; padding: 6px 12px; font-weight: 600; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
 
-header.top { position: sticky; top: 0; z-index: 10; background: rgba(18,8,10,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+/* Fixed backdrops: grass always there, blizzard fades in over it at winter */
+.bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+.bg-grass { background: linear-gradient(rgba(7, 20, 9, 0.58), rgba(7, 20, 9, 0.7)), url("images/grass.jpg") center / cover no-repeat, #0e2411; }
+.bg-storm { opacity: 0; will-change: opacity; background:
+  radial-gradient(900px 600px at 70% -10%, rgba(255,255,255,0.28), transparent 70%),
+  linear-gradient(180deg, #2a3947 0%, #46606f 50%, #6d8697 100%); }
+.bg-storm canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+header.top { position: sticky; top: 0; z-index: 20; background: rgba(8, 12, 9, 0.82); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
 header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 10px; padding-bottom: 10px; }
 .brand { display: flex; align-items: center; gap: 12px; color: var(--text); text-decoration: none; font-family: var(--font-display); font-size: 1.4rem; letter-spacing: -0.01em; }
 .mark { width: 44px; height: 44px; border-radius: 50%; background: #fff; display: grid; place-items: center; flex: none; }
@@ -54,122 +62,126 @@ nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
 nav a:hover { color: var(--text); }
 .btn { display: inline-block; background: linear-gradient(135deg, #e63946, #a30d24); color: #fff; font-weight: 600; text-decoration: none; padding: 13px 26px; border-radius: 4px; border: 1px solid #e63946; font-size: 1rem; font-family: var(--font-body); cursor: pointer; }
 .btn:hover { filter: brightness(1.1); }
-.btn.line { background: transparent; color: var(--text); border-color: #6a3a42; }
+.btn.line { background: rgba(0,0,0,0.25); color: var(--text); border-color: rgba(255,255,255,0.4); }
 .btn.line:hover { border-color: var(--accent); color: var(--accent); filter: none; }
 nav a.btn { color: #fff; padding: 9px 20px; }
 nav a.btn:hover { color: #fff; }
-@media (max-width: 900px) { nav a:not(.btn) { display: none; } }
+@media (max-width: 960px) { nav a:not(.btn) { display: none; } }
 
-.hero { padding: 64px 0 96px; background: radial-gradient(900px 520px at 85% 10%, rgba(196,32,44,0.38), transparent 70%), radial-gradient(700px 480px at 0% 100%, rgba(255,138,92,0.14), transparent 70%); }
+.hero { padding: 64px 0 96px; }
 .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; }
-.hero .sub { font-size: 1.22rem; color: var(--muted); margin-top: 24px; }
+.hero .sub { font-size: 1.22rem; color: var(--muted); margin-top: 24px; text-shadow: 0 1px 12px rgba(0,0,0,0.6); }
 .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
 .hero .note { font-size: 0.92rem; color: var(--muted); margin-top: 18px; }
-.photo { margin: 0; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; position: relative; background: var(--surface); }
+.photo { margin: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; position: relative; background: #0a0f0b; }
 .photo img { width: 100%; height: auto; }
 .photo .badge { position: absolute; right: 14px; top: 14px; padding: 10px 12px; border-radius: 10px; background: #fff; display: grid; place-items: center; box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
 .photo .badge img { height: 110px; width: auto; }
-.photo figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 16px 14px; background: linear-gradient(transparent, rgba(18,8,10,0.85)); font-family: var(--font-display); font-style: italic; }
+.photo figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 16px 14px; background: linear-gradient(transparent, rgba(5,10,6,0.85)); font-family: var(--font-display); font-style: italic; }
 @media (max-width: 880px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } section { padding: 72px 0; } }
 
-.marquee { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 22px 0; background: linear-gradient(90deg, #2a0a12, #12080a 50%, #2a0a12); }
+.marquee { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 22px 0; background: rgba(8, 12, 9, 0.6); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
 .marquee .track { display: flex; gap: 48px; white-space: nowrap; width: max-content; font-family: var(--font-display); font-size: clamp(2rem, 6vw, 4rem); font-style: italic; color: var(--text); will-change: transform; }
 .marquee .track span:nth-child(even) { color: var(--accent); }
-.reveal .w { opacity: 0.28; transition: opacity 0.25s linear; }
+.reveal .w { opacity: 0.4; transition: opacity 0.25s linear; }
 .reveal .w.on { opacity: 1; }
-@media (prefers-reduced-motion: reduce) { .reveal .w { opacity: 1; transition: none; } }
 
-.cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 44px; }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 34px 30px; display: grid; gap: 14px; align-content: start; }
-.card .kicker { font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
-.card ul { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
-.card li { padding-left: 22px; position: relative; }
-.card li::before { content: ""; position: absolute; left: 0; top: 0.78em; width: 10px; height: 2px; background: var(--red); }
-.card p { color: var(--muted); }
-@media (max-width: 760px) { .cards { grid-template-columns: 1fr; } }
-
-.gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 44px; }
+.svc { padding: 34px 30px; display: grid; gap: 14px; margin-top: 40px; }
+.svc .kicker { font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.svc p { color: var(--muted); }
+.svc ul { margin: 6px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 28px; }
+.svc li { padding-left: 22px; position: relative; }
+.svc li::before { content: ""; position: absolute; left: 0; top: 0.78em; width: 10px; height: 2px; background: var(--red); }
+@media (max-width: 640px) { .svc ul { grid-template-columns: 1fr; } }
+.gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 18px; }
 .gallery .photo { aspect-ratio: 4 / 3; }
 .gallery .photo img { width: 100%; height: 100%; object-fit: cover; }
-@media (max-width: 760px) { .gallery { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 480px) { .gallery { grid-template-columns: 1fr; } }
 
 .band { padding: 0; }
-.band .panel { min-height: 340px; display: grid; place-items: center; text-align: center; padding: 72px 20px; background: linear-gradient(100deg, #6b0c1c 0%, #12080a 50%, #a3162b 100%); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.band blockquote { margin: 0; font-family: var(--font-display); font-size: clamp(1.7rem, 4.6vw, 3rem); line-height: 1.18; max-width: 22ch; }
+.band .panelq { min-height: 340px; display: grid; place-items: center; text-align: center; padding: 72px 20px; background: linear-gradient(100deg, rgba(107,12,28,0.88) 0%, rgba(10,14,11,0.78) 50%, rgba(163,22,43,0.88) 100%); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.band blockquote { margin: 0; font-family: var(--font-display); font-size: clamp(1.7rem, 4.6vw, 3rem); line-height: 1.18; max-width: 22ch; text-shadow: 0 2px 18px rgba(0,0,0,0.45); }
 .band blockquote em { color: var(--accent); }
 
-.steps { list-style: none; margin: 48px 0 0; padding: 0; border-top: 1px solid var(--line); }
-.steps li { display: grid; grid-template-columns: 110px 1fr; gap: 20px; padding: 30px 0; border-bottom: 1px solid var(--line); align-items: start; }
+.steps { list-style: none; margin: 40px 0 0; padding: 0; }
+.steps li { display: grid; grid-template-columns: 110px 1fr; gap: 20px; padding: 28px 26px; border-bottom: 1px solid var(--line); align-items: start; }
+.steps li:last-child { border-bottom: 0; }
 .steps .n { font-family: var(--font-display); font-size: 3rem; line-height: 1; color: var(--accent); }
 .steps h3 { margin-bottom: 8px; }
 .steps p { color: var(--muted); }
-@media (max-width: 560px) { .steps li { grid-template-columns: 64px 1fr; } .steps .n { font-size: 2.1rem; } }
+@media (max-width: 560px) { .steps li { grid-template-columns: 64px 1fr; padding: 24px 18px; } .steps .n { font-size: 2.1rem; } }
 
-.two { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
-.two p { color: var(--muted); }
-.two p + p { margin-top: 16px; }
-.facts { border-top: 1px solid var(--line); }
-.fact { padding: 22px 0; border-bottom: 1px solid var(--line); display: grid; gap: 4px; }
-.fact b { font-family: var(--font-display); font-weight: 500; font-size: 1.6rem; }
-.fact span { color: var(--muted); }
-@media (max-width: 880px) { .two { grid-template-columns: 1fr; gap: 36px; } }
+.two { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: start; margin-top: 8px; }
+.story { padding: 34px 30px; }
+.story p { color: var(--muted); }
+.story p + p { margin-top: 18px; }
+.story .lead { color: var(--text); font-size: 1.25rem; }
+.rules { padding: 10px 26px; }
+.rule { padding: 20px 0; border-bottom: 1px solid var(--line); display: grid; gap: 4px; }
+.rule:last-child { border-bottom: 0; }
+.rule b { font-family: var(--font-display); font-weight: 500; font-size: 1.5rem; }
+.rule span { color: var(--muted); }
+@media (max-width: 880px) { .two { grid-template-columns: 1fr; } }
 
-.quotes { columns: 3; column-gap: 20px; margin-top: 44px; }
-.quote { break-inside: avoid; margin: 0 0 20px; background: var(--surface); border: 1px solid var(--line); border-top: 3px solid var(--red); border-radius: 6px; padding: 26px 24px; }
-.quote p { font-family: var(--font-display); font-size: 1.12rem; line-height: 1.45; }
-.quote cite { display: block; margin-top: 14px; font-style: normal; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
-@media (max-width: 900px) { .quotes { columns: 2; } }
-@media (max-width: 600px) { .quotes { columns: 1; } }
+.reviews { padding: 56px 0; }
+.reviews h2 { font-size: clamp(1.5rem, 3.4vw, 2rem); margin-bottom: 22px; }
+.rv-wrap { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.rv-track { display: flex; width: max-content; }
+.rv-wrap.ready .rv-track { animation: rv 80s linear infinite; }
+.rv-wrap:hover .rv-track, .rv-wrap:focus-within .rv-track { animation-play-state: paused; }
+@keyframes rv { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.quote { flex: none; width: 320px; margin: 0 16px 0 0; padding: 22px 22px 20px; border-top: 3px solid var(--red); }
+.quote p { font-family: var(--font-display); font-size: 1rem; line-height: 1.45; }
+.quote cite { display: block; margin-top: 12px; font-style: normal; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
 
-.jobs { margin-top: 36px; display: grid; gap: 0; border-top: 1px solid var(--line); max-width: 780px; }
-.job { display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); font-family: var(--font-display); font-size: 1.3rem; flex-wrap: wrap; }
+.jobs { margin-top: 28px; max-width: 780px; padding: 6px 26px; }
+.job { display: flex; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); font-family: var(--font-display); font-size: 1.3rem; flex-wrap: wrap; }
+.job:last-child { border-bottom: 0; }
 .job span { font-family: var(--font-body); font-size: 1rem; color: var(--accent); }
-.careers p { color: var(--muted); margin-top: 22px; }
+.careers .note { margin-top: 22px; color: var(--muted); }
 
-.faq { margin-top: 40px; border-top: 1px solid var(--line); max-width: 780px; }
-details { border-bottom: 1px solid var(--line); padding: 20px 0; }
-summary { cursor: pointer; font-family: var(--font-display); font-size: 1.28rem; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
-summary::-webkit-details-marker { display: none; }
-summary::after { content: "+"; color: var(--accent); font-size: 1.6rem; line-height: 1; }
-details[open] summary::after { content: "\2212"; }
-details p { color: var(--muted); margin-top: 12px; }
-
-.contact { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.contact .lead { color: var(--muted); margin-top: 18px; }
-.contact-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; margin-top: 12px; }
+.contact-box { padding: 40px 34px; }
+.contact-box .lead { color: var(--muted); margin-top: 18px; }
+.contact-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 48px; margin-top: 10px; }
 .details { display: grid; gap: 22px; align-content: start; margin: 28px 0 0; }
 .details dt { font-size: 0.76rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
 .details dd { margin: 4px 0 0; font-size: 1.15rem; }
 .details a { color: var(--text); }
-form { display: grid; gap: 16px; }
+form { display: grid; gap: 16px; margin-top: 28px; }
 label { display: grid; gap: 6px; font-size: 0.9rem; color: var(--muted); }
-input, select, textarea { font: inherit; font-size: 1rem; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 12px 14px; width: 100%; }
+input, select, textarea { font: inherit; font-size: 1rem; color: var(--text); background: rgba(0,0,0,0.38); border: 1px solid var(--line); border-radius: 4px; padding: 12px 14px; width: 100%; }
 textarea { min-height: 120px; resize: vertical; }
 .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-#form-note { color: var(--accent); min-height: 1.5em; font-size: 0.95rem; }
-@media (max-width: 880px) { .contact-grid { grid-template-columns: 1fr; gap: 36px; } }
+@media (max-width: 880px) { .contact-grid { grid-template-columns: 1fr; gap: 12px; } .contact-box { padding: 30px 20px; } }
 @media (max-width: 560px) { .row { grid-template-columns: 1fr; } }
 
-footer { background: #0a0405; padding: 64px 0 40px; }
+footer { background: rgba(4, 7, 5, 0.9); padding: 64px 0 40px; }
 footer .top-row { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items: center; }
 .foot-logo { background: #fff; border-radius: 10px; padding: 10px 14px; display: inline-block; }
 .foot-logo img { height: 96px; width: auto; }
 footer .tag { color: var(--muted); margin-top: 10px; font-style: italic; font-family: var(--font-display); }
 footer .fine { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--line); font-size: 0.88rem; color: var(--muted); }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal .w { opacity: 1; transition: none; }
+  .rv-wrap { overflow-x: auto; }
+  .rv-wrap.ready .rv-track { animation: none; }
+  .rv-track .clone { display: none; }
+}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="bg bg-grass" aria-hidden="true"></div>
+<div class="bg bg-storm" id="storm" aria-hidden="true"><canvas id="snow"></canvas></div>
 
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#top"><span class="mark"><img src="images/logo.png" alt=""></span><span>Thornapple <i>Inc.</i></span></a>
     <nav aria-label="Main">
-      <a href="#services">Services</a>
+      <a href="#lawn">Lawn care</a>
+      <a href="#winter">Snow plowing</a>
       <a href="#about">About</a>
-      <a href="#reviews">Reviews</a>
       <a href="#careers">Careers</a>
       <a class="btn" href="#estimate">Free estimate</a>
     </nav>
@@ -181,55 +193,68 @@ footer .fine { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--
     <div class="wrap hero-grid">
       <div>
         <span class="eyebrow">Lowell, Michigan</span>
-        <h1>Cleared in winter. <em>Kept sharp in summer.</em></h1>
-        <p class="sub">Commercial and residential snow plowing and professional lawn care from the Thornapple crew. More than 35 years of experience, BBB accredited since 2005, and a free estimate on every job.</p>
+        <h1>Sharp lawns in summer. <em>Clear lots in winter.</em></h1>
+        <p class="sub">Lawn care and commercial and residential snow plowing from two owners with more than 35 years of experience. No salesmen. No upcharges. A free estimate on every job.</p>
         <div class="actions">
           <a class="btn" href="#estimate">Get a free estimate</a>
           <a class="btn line" href="tel:6168689770">Call 616.868.9770</a>
         </div>
-        <p class="note">Estimates are free. No obligation.</p>
+        <p class="note">BBB accredited since 2005.</p>
       </div>
       <figure class="photo">
-        <img src="images/truck-plow.jpg" alt="A red Thornapple pickup truck plowing a snowy road" width="1000" height="670">
+        <img src="images/lawn-lake.jpg" alt="Striped lawn leading down to a lake" width="1000" height="670">
         <span class="badge"><img src="images/logo-full.png" alt="Thornapple Inc. logo"></span>
-        <figcaption>Out before you are.</figcaption>
+        <figcaption>Cut straight. Cut clean.</figcaption>
       </figure>
     </div>
   </section>
 
-  <div class="marquee" aria-hidden="true"><div class="track" id="track"><span>Snow plowing</span><span>&bull;</span><span>Lawn mowing</span><span>&bull;</span><span>Aeration</span><span>&bull;</span><span>Irrigation</span><span>&bull;</span><span>Mulch</span><span>&bull;</span><span>Deicing</span><span>&bull;</span><span>Leaf pick up</span><span>&bull;</span><span>Free estimates</span></div></div>
+  <div class="marquee" aria-hidden="true"><div class="track" id="track"><span>Lawn mowing</span><span>&bull;</span><span>Aeration</span><span>&bull;</span><span>Irrigation</span><span>&bull;</span><span>Mulch</span><span>&bull;</span><span>Clean ups</span><span>&bull;</span><span>Leaf pick up</span><span>&bull;</span><span>Snow plowing</span><span>&bull;</span><span>Deicing</span></div></div>
 
-  <section id="services">
+  <section id="lawn">
     <div class="wrap">
-      <span class="eyebrow">Our services</span>
-      <h2>Everything your property needs, <em>all year.</em></h2>
-      <div class="cards">
-        <article class="card">
-          <span class="kicker">Winter</span>
-          <h3>Snow and ice</h3>
-          <p>Safe, proven methods to keep drives, lots, and walks open. Commercial and residential.</p>
-          <ul>
-            <li>Commercial and residential snow plowing</li>
-            <li>Deicing</li>
-          </ul>
-        </article>
-        <article class="card">
-          <span class="kicker">Spring to fall</span>
-          <h3>Lawn and landscape</h3>
-          <p>Methods that keep your property looking immaculate and healthy, with electric equipment now in the fleet.</p>
-          <ul>
-            <li>Professional lawn mowing</li>
-            <li>Aeration and irrigation</li>
-            <li>Spring clean up and fall clean up</li>
-            <li>Mulch</li>
-            <li>Curbside leaf pick up</li>
-          </ul>
-        </article>
-      </div>
+      <span class="eyebrow">Spring to fall</span>
+      <h2>Lawn and landscape, <em>done right.</em></h2>
+      <article class="svc panel">
+        <h3>Everything the yard needs</h3>
+        <p>Professional methods that keep your property looking immaculate and healthy. We now run electric equipment too, including an electric lawn mower, for quieter and cleaner service.</p>
+        <ul>
+          <li>Professional lawn mowing</li>
+          <li>Aeration</li>
+          <li>Irrigation</li>
+          <li>Spring clean up</li>
+          <li>Fall clean up</li>
+          <li>Mulch</li>
+          <li>Curbside leaf pick up</li>
+        </ul>
+      </article>
       <div class="gallery">
-        <figure class="photo"><img src="images/lawn-lake.jpg" alt="Striped lawn leading down to a lake" loading="lazy"></figure>
         <figure class="photo"><img src="images/house-lawn.jpg" alt="Freshly mowed lawn and driveway at a home" loading="lazy"></figure>
         <figure class="photo"><img src="images/sidewalk.jpg" alt="Neatly mowed lawn along a commercial sidewalk" loading="lazy"></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-label="Our approach">
+    <div class="panelq">
+      <blockquote class="reveal">A property that looks <em>cared for,</em> every season.</blockquote>
+    </div>
+  </section>
+
+  <section id="winter">
+    <div class="wrap">
+      <span class="eyebrow">Winter</span>
+      <h2>When the snow flies, <em>so do we.</em></h2>
+      <article class="svc panel">
+        <h3>Snow and ice</h3>
+        <p>Safe, proven methods to keep drives, lots, and walks open for the people who need to get through them. Commercial and residential.</p>
+        <ul>
+          <li>Commercial and residential snow plowing</li>
+          <li>Deicing</li>
+        </ul>
+      </article>
+      <div class="gallery">
+        <figure class="photo"><img src="images/truck-plow.jpg" alt="A red Thornapple pickup truck plowing a snowy road" loading="lazy"></figure>
         <figure class="photo"><img src="images/cat-night.jpg" alt="Skid steer pushing snow at night" loading="lazy"></figure>
         <figure class="photo"><img src="images/bobcat.jpg" alt="Thornapple skid steer with a snow pusher" loading="lazy"></figure>
         <figure class="photo"><img src="images/yellow-truck.jpg" alt="Yellow Thornapple truck clearing a large snowy lot" loading="lazy"></figure>
@@ -237,56 +262,52 @@ footer .fine { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--
     </div>
   </section>
 
-  <section class="band" aria-label="Our approach">
-    <div class="panel">
-      <blockquote class="reveal">A property that looks <em>cared for,</em> every season.</blockquote>
-    </div>
-  </section>
-
-  <section id="how">
+  <section id="how" style="padding-top:24px">
     <div class="wrap">
       <span class="eyebrow">How it works</span>
       <h2>Simple from the <em>first call.</em></h2>
-      <ol class="steps">
+      <ol class="steps panel">
         <li><span class="n">01</span><div><h3>Request your free estimate</h3><p>Fill in your details or call. We are happy to provide a free estimate, with no obligation.</p></div></li>
-        <li><span class="n">02</span><div><h3>We review and quote</h3><p>We look at your property and the work you need, then give you a clear price.</p></div></li>
-        <li><span class="n">03</span><div><h3>We set the schedule</h3><p>Plowing for winter, mowing and clean ups for the growing season.</p></div></li>
-        <li><span class="n">04</span><div><h3>We do the work</h3><p>The same crew, proven methods, and equipment built for the job.</p></div></li>
+        <li><span class="n">02</span><div><h3>We look and we quote</h3><p>You talk to the owners, and you get a straight price.</p></div></li>
+        <li><span class="n">03</span><div><h3>We set the schedule</h3><p>Mowing and clean ups in the growing season, plowing and deicing in winter.</p></div></li>
+        <li><span class="n">04</span><div><h3>We do the work</h3><p>Proven methods, the right equipment, and no surprises on the bill.</p></div></li>
       </ol>
     </div>
   </section>
 
   <section id="about" style="padding-top:24px">
-    <div class="wrap two">
-      <div>
-        <span class="eyebrow">About us</span>
-        <h2>Owners who have done this <em>since 1986.</em></h2>
-        <p class="reveal" style="margin-top:24px">Owners Scott Rissi and Jon VanderWeele have been in the landscape maintenance business since 1986. They officially combined their talents to form Thornapple Lawn Care in 1996, and incorporated as Thornapple Inc. in 2011.</p>
-        <p class="reveal">Together they bring over 35 years of experience and knowledge to lawn care and snow plowing service. We now use electric equipment, including an electric lawn mower, and we keep looking for quieter, more environmentally friendly options.</p>
-      </div>
-      <div class="facts" aria-label="Company facts">
-        <div class="fact"><b>35+ years</b><span>Of combined experience in lawn care and snow plowing</span></div>
-        <div class="fact"><b>Since 1996</b><span>As Thornapple Lawn Care, incorporated as Thornapple Inc. in 2011</span></div>
-        <div class="fact"><b>BBB accredited</b><span>Accredited member of the Better Business Bureau since 2005</span></div>
-        <div class="fact"><b>Electric equipment</b><span>Quiet, lower-emission mowing available</span></div>
+    <div class="wrap">
+      <span class="eyebrow">About Scott and Jon</span>
+      <h2>Two friends who love <em>anything with a motor.</em></h2>
+      <div class="two" style="margin-top:36px">
+        <div class="story panel">
+          <p class="lead reveal">Scott Rissi and Jon VanderWeele met as teenagers and bonded over a love of anything with a motor.</p>
+          <p class="reveal">That love led them to lawn mowers. As soon as they were both old enough to drive, they had plows on their vehicles. They have been in the landscape maintenance business since 1986, formed Thornapple Lawn Care in 1996, and incorporated as Thornapple Inc. in 2011.</p>
+          <p class="reveal">Shared interests are what make them passionate about what they do. It was never about bells and whistles. It is about doing the work well, with the right equipment, for people who count on it. We now run electric equipment too, including an electric lawn mower, and we keep looking for quieter, cleaner options.</p>
+        </div>
+        <div class="rules panel" aria-label="How we work">
+          <div class="rule"><b>You work with the owners</b><span>Call and you reach the people who do the work.</span></div>
+          <div class="rule"><b>No salesmen</b><span>No sales calls and no pressure.</span></div>
+          <div class="rule"><b>No upcharges</b><span>No nonsense. A straight price, honestly earned.</span></div>
+          <div class="rule"><b>35+ years</b><span>BBB accredited since 2005.</span></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section id="reviews" style="padding-top:24px">
-    <div class="wrap">
-      <span class="eyebrow">Customer reviews</span>
-      <h2>In their <em>own words.</em></h2>
-      <div class="quotes">
-        <blockquote class="quote"><p>I have used more than five different lawn service companies over the past 30 years and Thornapple Inc is the best company I've hired.</p><cite>Larry K.</cite></blockquote>
-        <blockquote class="quote"><p>The crew at Thornapple Inc. is dependable and consistently does a good job on my lawn. Additionally, their plowing service is always prompt so we can get out &amp; get to work even in the snow.</p><cite>Henry E.</cite></blockquote>
-        <blockquote class="quote"><p>Thornapple Inc. is incredibly responsive to our needs. When a fallen tree needed to be removed, it was taken care of immediately. Their rates are very reasonable and a great deal.</p><cite>Rich &amp; Anne H.</cite></blockquote>
-        <blockquote class="quote"><p>Thornapple Inc. is reliable, prompt and courteous. I trust their skill and can depend on this company to complete their job with expertise. My lawn looks beautiful!</p><cite>Patricia W.</cite></blockquote>
-        <blockquote class="quote"><p>We have always enjoyed working with Thornapple Inc. Not only have they done a great job with all the work they have done for us, but we have also grown to trust them. We always feel we are in good hands with Thornapple Inc.</p><cite>Steve V.</cite></blockquote>
-        <blockquote class="quote"><p>Excellent Service! Always a job well done!</p><cite>Steve A.</cite></blockquote>
-        <blockquote class="quote"><p>We are pleased to recommend Thornapple, Inc. to any new clients. We have known and dealt with them for many years and found them to be competent, trustworthy and fair. We would not have any other company service our needs.</p><cite>Fran N.</cite></blockquote>
-        <blockquote class="quote"><p>As always, I appreciate your courteous, professional, and friendly service. Thank you!</p><cite>Shirley N.</cite></blockquote>
-        <blockquote class="quote"><p>Thank you for helping with snow plowing! We appreciate the help of clearing our long driveway so we can get out to our appointments!</p><cite>Brigita &amp; Al D.</cite></blockquote>
+  <section class="reviews" id="reviews" aria-label="Customer reviews">
+    <div class="wrap"><span class="eyebrow">Customer reviews</span><h2>In their <em>own words.</em></h2></div>
+    <div class="rv-wrap" id="rv">
+      <div class="rv-track" id="rvTrack">
+        <blockquote class="quote panel"><p>I have used more than five different lawn service companies over the past 30 years and Thornapple Inc is the best company I've hired.</p><cite>Larry K.</cite></blockquote>
+        <blockquote class="quote panel"><p>The crew at Thornapple Inc. is dependable and consistently does a good job on my lawn. Additionally, their plowing service is always prompt so we can get out &amp; get to work even in the snow.</p><cite>Henry E.</cite></blockquote>
+        <blockquote class="quote panel"><p>Thornapple Inc. is incredibly responsive to our needs. When a fallen tree needed to be removed, it was taken care of immediately. Their rates are very reasonable and a great deal.</p><cite>Rich &amp; Anne H.</cite></blockquote>
+        <blockquote class="quote panel"><p>Thornapple Inc. is reliable, prompt and courteous. I trust their skill and can depend on this company to complete their job with expertise. My lawn looks beautiful!</p><cite>Patricia W.</cite></blockquote>
+        <blockquote class="quote panel"><p>We have always enjoyed working with Thornapple Inc. Not only have they done a great job with all the work they have done for us, but we have also grown to trust them. We always feel we are in good hands with Thornapple Inc.</p><cite>Steve V.</cite></blockquote>
+        <blockquote class="quote panel"><p>Excellent Service! Always a job well done!</p><cite>Steve A.</cite></blockquote>
+        <blockquote class="quote panel"><p>We are pleased to recommend Thornapple, Inc. to any new clients. We have known and dealt with them for many years and found them to be competent, trustworthy and fair. We would not have any other company service our needs.</p><cite>Fran N.</cite></blockquote>
+        <blockquote class="quote panel"><p>As always, I appreciate your courteous, professional, and friendly service. Thank you!</p><cite>Shirley N.</cite></blockquote>
+        <blockquote class="quote panel"><p>Thank you for helping with snow plowing! We appreciate the help of clearing our long driveway so we can get out to our appointments!</p><cite>Brigita &amp; Al D.</cite></blockquote>
       </div>
     </div>
   </section>
@@ -295,48 +316,49 @@ footer .fine { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--
     <div class="wrap">
       <span class="eyebrow">Careers</span>
       <h2>Want to work for <em>Thornapple Inc.?</em></h2>
-      <p>Join our team. We would love to bring you aboard. We offer $20 to $28 per hour for the following positions.</p>
-      <div class="jobs">
-        <div class="job">Snowplow Truck Drivers</div>
-        <div class="job">Skid Steer Operators</div>
-        <div class="job">Salt/Spray Truck Driver</div>
+      <div class="jobs panel">
+        <div class="job">Snowplow Truck Drivers <span>$20 to $28 per hour</span></div>
+        <div class="job">Skid Steer Operators <span>$20 to $28 per hour</span></div>
+        <div class="job">Salt/Spray Truck Driver <span>$20 to $28 per hour</span></div>
         <div class="job">Sidewalk Technicians <span>Starting at $27 to $35 per hour</span></div>
       </div>
-      <p>No prior experience required. Some positions require a valid driver's license. Email us at <a href="mailto:office@thornappleinc.com">office@thornappleinc.com</a> to apply.</p>
+      <p class="note">Join our team. No prior experience required. Some positions require a valid driver's license. Email us at <a href="mailto:office@thornappleinc.com">office@thornappleinc.com</a> to apply.</p>
     </div>
   </section>
 
-  <section id="estimate" class="contact">
+  <section id="estimate" style="padding-top:24px">
     <div class="wrap">
-      <span class="eyebrow">Contact</span>
-      <h2>Contact us today for <em>your free estimate.</em></h2>
-      <p class="lead">We are more than happy to provide a free estimate. Fill in your details and we will be in touch shortly.</p>
-      <div class="contact-grid">
-        <dl class="details">
-          <div><dt>Phone</dt><dd><a href="tel:6168689770">616.868.9770</a></dd></div>
-          <div><dt>Email</dt><dd><a href="mailto:office@thornappleinc.com">office@thornappleinc.com</a></dd></div>
-          <div><dt>Address</dt><dd>Thornapple Inc.<br>11240 Cascade Road<br>Lowell, MI 49331</dd></div>
-        </dl>
-        <!-- Netlify Forms captures submissions at deploy time. -->
-        <form id="estimate-form" name="estimate" method="POST" action="/thanks.html" data-netlify="true" netlify-honeypot="bot-field">
-          <input type="hidden" name="form-name" value="estimate">
-          <p hidden><label>Do not fill this in: <input name="bot-field"></label></p>
-          <label for="f-name">Full name<input id="f-name" name="name" required autocomplete="name" placeholder="Enter your name"></label>
-          <div class="row">
-            <label for="f-phone">Phone<input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="Enter your phone number"></label>
-            <label for="f-email">Email<input id="f-email" name="email" type="email" required autocomplete="email" placeholder="Enter your email address"></label>
-          </div>
-          <label for="f-service">Service
-            <select id="f-service" name="service">
-              <option>Snow plowing</option>
-              <option>Lawn mowing</option>
-              <option>Other lawn and landscape services</option>
-              <option>More than one</option>
-            </select>
-          </label>
-          <label for="f-msg">Subject and details<textarea id="f-msg" name="message" placeholder="Tell us about your property"></textarea></label>
-          <button class="btn" type="submit">Request my free estimate</button>
-        </form>
+      <div class="contact-box panel">
+        <span class="eyebrow">Contact</span>
+        <h2>Contact us today for <em>your free estimate.</em></h2>
+        <p class="lead">We are more than happy to provide a free estimate. Fill in your details and we will be in touch shortly.</p>
+        <div class="contact-grid">
+          <dl class="details">
+            <div><dt>Phone</dt><dd><a href="tel:6168689770">616.868.9770</a></dd></div>
+            <div><dt>Email</dt><dd><a href="mailto:office@thornappleinc.com">office@thornappleinc.com</a></dd></div>
+            <div><dt>Address</dt><dd>Thornapple Inc.<br>11240 Cascade Road<br>Lowell, MI 49331</dd></div>
+          </dl>
+          <!-- Netlify Forms captures submissions at deploy time. -->
+          <form id="estimate-form" name="estimate" method="POST" action="/thanks.html" data-netlify="true" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="estimate">
+            <p hidden><label>Do not fill this in: <input name="bot-field"></label></p>
+            <label for="f-name">Full name<input id="f-name" name="name" required autocomplete="name" placeholder="Enter your name"></label>
+            <div class="row">
+              <label for="f-phone">Phone<input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="Enter your phone number"></label>
+              <label for="f-email">Email<input id="f-email" name="email" type="email" required autocomplete="email" placeholder="Enter your email address"></label>
+            </div>
+            <label for="f-service">Service
+              <select id="f-service" name="service">
+                <option>Lawn mowing</option>
+                <option>Other lawn and landscape services</option>
+                <option>Snow plowing</option>
+                <option>More than one</option>
+              </select>
+            </label>
+            <label for="f-msg">Subject and details<textarea id="f-msg" name="message" placeholder="Tell us about your property"></textarea></label>
+            <button class="btn" type="submit">Request my free estimate</button>
+          </form>
+        </div>
       </div>
     </div>
   </section>
@@ -347,7 +369,7 @@ footer .fine { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--
     <div class="top-row">
       <div>
         <a class="foot-logo" href="#top"><img src="images/logo-full.png" alt="Thornapple Inc."></a>
-        <p class="tag">Snow plowing and lawn care in Lowell, Michigan.</p>
+        <p class="tag">Lawn care and snow plowing in Lowell, Michigan.</p>
       </div>
       <a href="#top">Back to top</a>
     </div>
@@ -358,6 +380,17 @@ footer .fine { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--
 <script>
 (function () {
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Reviews: duplicate the set once so the loop is seamless, then let CSS slide it right to left. */
+  var rv = document.getElementById('rv'), rvTrack = document.getElementById('rvTrack');
+  if (rv && rvTrack) {
+    Array.prototype.slice.call(rvTrack.children).forEach(function (q) {
+      var c = q.cloneNode(true); c.className += ' clone'; c.setAttribute('aria-hidden', 'true'); rvTrack.appendChild(c);
+    });
+    rv.className += ' ready';
+  }
+
+  /* Word-by-word reveal on scroll */
   var groups = [];
   document.querySelectorAll('.reveal').forEach(function (el) {
     var words = [];
@@ -377,14 +410,53 @@ footer .fine { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--
     })(el);
     groups.push({ el: el, words: words });
   });
+
+  /* Blizzard: fixed canvas of wind-blown snow */
+  var storm = document.getElementById('storm');
+  var cvs = document.getElementById('snow');
+  var ctx = cvs.getContext('2d');
+  var flakes = [], W = 0, H = 0, dpr = 1;
+  function sizeSnow() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = cvs.width = Math.round(window.innerWidth * dpr);
+    H = cvs.height = Math.round(window.innerHeight * dpr);
+    var n = Math.max(70, Math.min(230, Math.round(window.innerWidth * window.innerHeight / 8000)));
+    flakes = [];
+    for (var i = 0; i < n; i++) {
+      flakes.push({ x: Math.random() * W, y: Math.random() * H, r: (0.7 + Math.random() * 2.2) * dpr, vy: (1.2 + Math.random() * 2.4) * dpr, vx: (3 + Math.random() * 4) * dpr, a: 0.4 + Math.random() * 0.55 });
+    }
+  }
+  function drawSnow(move) {
+    ctx.clearRect(0, 0, W, H);
+    ctx.lineCap = 'round';
+    for (var i = 0; i < flakes.length; i++) {
+      var f = flakes[i];
+      ctx.strokeStyle = 'rgba(255,255,255,' + f.a + ')';
+      ctx.lineWidth = f.r;
+      ctx.beginPath(); ctx.moveTo(f.x, f.y); ctx.lineTo(f.x - f.vx * 2.2, f.y - f.vy * 2.2); ctx.stroke();
+      if (move) {
+        f.x += f.vx; f.y += f.vy;
+        if (f.x > W + 20) { f.x = -20; f.y = Math.random() * H; }
+        if (f.y > H + 20) { f.y = -20; f.x = Math.random() * W; }
+      }
+    }
+  }
+  sizeSnow();
+
+  /* Smooth grass to blizzard crossfade, eased every frame */
+  var winter = document.getElementById('winter');
   var track = document.getElementById('track');
-  function update() {
+  var target = 0, current = 0;
+  function measure() {
     var vh = window.innerHeight;
+    var top = winter.getBoundingClientRect().top;
+    var p = (vh * 0.9 - top) / (vh * 0.8);
+    target = Math.max(0, Math.min(1, p));
+    target = target * target * (3 - 2 * target); /* smoothstep */
     groups.forEach(function (g) {
       var r = g.el.getBoundingClientRect();
-      var p = (vh * 0.9 - r.top) / (vh * 0.55 + r.height);
-      p = Math.max(0, Math.min(1, p));
-      var n = Math.round(p * g.words.length);
+      var q = Math.max(0, Math.min(1, (vh * 0.95 - r.top) / (vh * 0.4)));
+      var n = Math.round(q * g.words.length);
       g.words.forEach(function (w, i) { w.classList.toggle('on', i < n || reduce); });
     });
     if (track && !reduce) {
@@ -394,9 +466,19 @@ footer .fine { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--
       track.style.transform = 'translateX(' + (-mp * travel) + 'px)';
     }
   }
-  window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
-  update();
+  function tick() {
+    current += (target - current) * 0.09;
+    if (Math.abs(target - current) < 0.0005) current = target;
+    storm.style.opacity = current.toFixed(4);
+    if (current > 0.01 && !reduce) drawSnow(true);
+    requestAnimationFrame(tick);
+  }
+  window.addEventListener('scroll', measure, { passive: true });
+  window.addEventListener('resize', function () { sizeSnow(); measure(); });
+  measure();
+  current = target;
+  storm.style.opacity = current;
+  if (reduce) { drawSnow(false); } else { tick(); }
 })();
 </script>
 </body>
