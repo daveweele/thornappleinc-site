@@ -282,7 +282,7 @@ footer .fine { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--
       <div class="two" style="margin-top:36px">
         <div class="story panel">
           <p class="lead reveal">Scott Rissi and Jon VanderWeele met as teenagers and bonded over a love of anything with a motor.</p>
-          <p class="reveal">That love led them to lawn mowers. As soon as they were both old enough to drive, they had plows on their vehicles. They have been in the landscape maintenance business since 1986, formed Thornapple Lawn Care in 1996, and incorporated as Thornapple Inc. in 2011.</p>
+          <p class="reveal">That love led them to lawn mowers. As soon as they were both old enough to drive, they had plows on their vehicles. They have been in the landscape maintenance business since 1986. Thornapple Lawn Care got its start in 1996 and became Thornapple Inc. in 2011.</p>
           <p class="reveal">Shared interests are what make them passionate about what they do. It was never about bells and whistles. It is about doing the work well, with the right equipment, for people who count on it. We now run electric equipment too, including an electric lawn mower, and we keep looking for quieter, cleaner options.</p>
         </div>
         <div class="rules panel" aria-label="How we work">
@@ -338,7 +338,7 @@ footer .fine { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--
             <div><dt>Email</dt><dd><a href="mailto:office@thornappleinc.com">office@thornappleinc.com</a></dd></div>
             <div><dt>Address</dt><dd>Thornapple Inc.<br>11240 Cascade Road<br>Lowell, MI 49331</dd></div>
           </dl>
-          <!-- Netlify Forms captures submissions at deploy time. -->
+          <!-- Test mode: see SEND_REQUESTS in the script below. Nothing is sent until it is set to true. -->
           <form id="estimate-form" name="estimate" method="POST" action="/thanks.html" data-netlify="true" netlify-honeypot="bot-field">
             <input type="hidden" name="form-name" value="estimate">
             <p hidden><label>Do not fill this in: <input name="bot-field"></label></p>
@@ -380,6 +380,15 @@ footer .fine { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--
 <script>
 (function () {
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Estimate form switch. false = nothing is sent anywhere; the visitor just sees the thank-you page.
+     Change to true at launch to send requests through Netlify Forms. */
+  var SEND_REQUESTS = false;
+  document.getElementById('estimate-form').addEventListener('submit', function (e) {
+    if (SEND_REQUESTS) return;
+    e.preventDefault();
+    window.location.href = 'thanks.html';
+  });
 
   /* Reviews: duplicate the set once so the loop is seamless, then let CSS slide it right to left. */
   var rv = document.getElementById('rv'), rvTrack = document.getElementById('rvTrack');
