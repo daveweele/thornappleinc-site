@@ -68,6 +68,18 @@ nav a.btn { color: #fff; padding: 9px 20px; }
 nav a.btn:hover { color: #fff; }
 @media (max-width: 960px) { nav a:not(.btn) { display: none; } }
 
+html { scroll-behavior: smooth; }
+section[id], #rv { scroll-margin-top: 110px; }
+.chips { display: none; }
+@media (max-width: 960px) {
+  header.top .wrap { flex-wrap: wrap; row-gap: 0; padding-bottom: 0; }
+  .chips { display: flex; gap: 8px; width: 100%; overflow-x: auto; padding: 8px 0 10px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chips a { flex: none; color: var(--text); text-decoration: none; font-size: 0.9rem; padding: 7px 14px; border-radius: 999px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); white-space: nowrap; }
+  .chips a:active { background: rgba(255,106,110,0.35); }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
 .hero { padding: 64px 0 96px; }
 .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; }
 .hero .sub { font-size: 1.22rem; color: var(--muted); margin-top: 24px; text-shadow: 0 1px 12px rgba(0,0,0,0.6); }
@@ -182,9 +194,18 @@ footer .fine { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--
       <a href="#lawn">Lawn care</a>
       <a href="#winter">Snow plowing</a>
       <a href="#about">About</a>
-      <a href="#careers">Careers</a>
+      <a href="careers.html">Careers</a>
       <a class="btn" href="#estimate">Free estimate</a>
     </nav>
+    <div class="chips" aria-label="Jump to a section">
+      <a href="#lawn">Lawn care</a>
+      <a href="#winter">Snow plowing</a>
+      <a href="#how">How it works</a>
+      <a href="#about">About</a>
+      <a href="#rv">Reviews</a>
+      <a href="careers.html">Careers</a>
+      <a href="#estimate">Contact</a>
+    </div>
   </div>
 </header>
 
@@ -312,20 +333,6 @@ footer .fine { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--
     </div>
   </section>
 
-  <section id="careers" class="careers" style="padding-top:24px">
-    <div class="wrap">
-      <span class="eyebrow">Careers</span>
-      <h2>Want to work for <em>Thornapple Inc.?</em></h2>
-      <div class="jobs panel">
-        <div class="job">Snowplow Truck Drivers <span>$20 to $28 per hour</span></div>
-        <div class="job">Skid Steer Operators <span>$20 to $28 per hour</span></div>
-        <div class="job">Salt/Spray Truck Driver <span>$20 to $28 per hour</span></div>
-        <div class="job">Sidewalk Technicians <span>Starting at $27 to $35 per hour</span></div>
-      </div>
-      <p class="note">Join our team. No prior experience required. Some positions require a valid driver's license. Email us at <a href="mailto:office@thornappleinc.com">office@thornappleinc.com</a> to apply.</p>
-    </div>
-  </section>
-
   <section id="estimate" style="padding-top:24px">
     <div class="wrap">
       <div class="contact-box panel">
@@ -371,7 +378,7 @@ footer .fine { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--
         <a class="foot-logo" href="#top"><img src="images/logo-full.png" alt="Thornapple Inc."></a>
         <p class="tag">Lawn care and snow plowing in Lowell, Michigan.</p>
       </div>
-      <a href="#top">Back to top</a>
+      <a href="careers.html">Careers</a> &nbsp; <a href="#top">Back to top</a>
     </div>
     <p class="fine">&copy; Copyright 2026 Thornapple Inc. All rights reserved. All registered trademarks herein are the property of their respective owners.</p>
   </div>
